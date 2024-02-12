@@ -1,0 +1,18 @@
+{
+  "news": [],
+  "categories": [
+    {
+      "id": "7949",
+      "name": "TECNOLOGIA",
+      "description": "Centro de entrenamientos"
+    }
+  ],
+  "users": [
+    {
+      "id": "d371",
+      "name": "Your Name",
+      "email": "test@riwi.io",
+      "password": "riwi2024"
+    }
+  ]
+}

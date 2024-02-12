@@ -1,0 +1,69 @@
+PASOS DE LO QUE SE ESTA HACIENDO:
+
+1. Empezamos con el login, este esta compuesto por un formulario, selecionamos el id´s que 
+compone este formulario, entonces el id del formulario, del input del email y del password
+
+2. Les hacemos las constantes y al formulario le hacemos un addEventListener con submit 
+y una función de una sola vez con el evento e.preventDefault() para evitar que se recargue
+se envie el formulario y llamamos a una función para validar el login.
+
+3. Para la validación del login hacemos el fetch pero las URL's las vamos a llamar en otro
+archivo para hacer uso del export y del import pero entonces en el archivo que se va a 
+importar en el HTML hay que colocarle en el script que es tipo module para que sirvan estas 
+importaciones
+
+4.Luego si hacemos la funcion que va a servir como login, hacemos el fetch con la constantes
+que importamos de users le colocamos el ? como un if pequeño:
+
+async function logIn() {
+    const response = await fetch(`${urlUsers}?email=${email.value}`);
+    const data = await response.json();
+
+    if (!data) {
+        console.log("Email no registrado");
+        return; //Como data devuelve es lo que el usuario coloco y aqui 
+        //Si es diferente a lo que tenemos como base de datos pues te 
+        //El siguiente mensaje y con el return no deja que el siguiente
+        //código se ejecute, se corta
+    }
+
+    if(data[0].password !== password.value) {
+        console.log("Constraseña Invalida");
+        return // Aqui, como en la base esta en medio de un array entonces
+        //debemos acceder a el e ingresamos al password para verificar si
+        //coincide con el que el usuario ingreso
+    }
+
+    localStorage.setItem("user",JSON.stringify(data[0]));
+    window.location.href = "administrator(1).html"
+    //Mandamos al localStorage para que no haya problema en entrar cuando 
+    //ya este verificado
+}
+
+Basicamente hacemos esto,
+
+5. Para hacer el guardian creamos una carpeta en el js que se llame
+"guards" y dentro un fichero como authGuard.js y se ejecuta lo siguiente:
+(
+    ()=> {
+        const user = localStorage.getItem("user");
+        //Donde el valor de esta constante es que traemos del localStorage
+        // la llave y la verificamos con lo siguiente
+
+        if (!user) {
+            window.location.href = "login(1).html"
+        } //Si user es diferente a lo que esta en el localStorage entonces
+        //nos manda a login(1).html
+    }
+)()
+
+y dentro del archivo que queremos proteger le mandamos este fichero donde
+se encuentra el guardian en la cabecera, no abajo como comunmente
+se ejecutan los scripts.
+
+6. Añadir categorias: Para hacer el código pricipal, agregamos una carpeta
+nueva en js llamada categories y dentro el index donde se hara casi la 
+misma logica del login con la difencia que en la carpeta api de la carpeta
+js se añadira un nuevo fichero que habra una funcion de post que se 
+exportara para el nuevo fichero primcipal de administradores.
+
